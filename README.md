@@ -1,4 +1,4 @@
-# Testes automatizados com Cypress - Básico v2
+# Testes automatizados com Cypress - Básico v2 [![main](https://github.com/renanslopes/cypress-basico-v2/actions/workflows/ci.yml/badge.svg)](https://github.com/renanslopes/cypress-basico-v2/actions)
 
 >Dê o próximo passo para se tornar um expert em testes automatizados com Cypress e amplie suas habilidades em automação de testes.<br>
 >Cypress é um framework open source que possibilita a escrita de testes automatizados de forma fácil, rápida e confiável, tudo em JavaScript, e é exatamente isso que você vai aprender neste curso.<br>
