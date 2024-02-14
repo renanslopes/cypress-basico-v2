@@ -108,11 +108,12 @@ describe('Central de Atendimento ao Cliente TAT', function () {
 
   })
 
-  it('marca ambos checkboxes, depois desmarca o último', function () {
-    cy.get('input[type="checkbox"]').check().should('be.checked')
-    cy.get('input[type="checkbox"]').last().uncheck().should('not.be.checked')
+  Cypress._.times(5, () => { // Repete o teste 5 vezes
+    it('marca ambos checkboxes, depois desmarca o último', function () {
+      cy.get('input[type="checkbox"]').check().should('be.checked')
+      cy.get('input[type="checkbox"]').last().uncheck().should('not.be.checked')
 
-
+    })
   })
 
   it('seleciona um arquivo da pasta fixtures', function () {
@@ -155,8 +156,52 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('#privacy a').invoke('removeAttr', 'target').click()
   })
 
+  it('verifica tempo de exibição da mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function () {
+    cy.clock()
+    cy.get('button[class="button"]').click();
+    cy.get('span[class="error"]').should('be.visible');
+    cy.tick(3000)
+    cy.get('span[class="error"]').should('not.be.visible');
+  })
 
+  it('exibe e esconde as mensagens de sucesso e erro usando o .invoke()', function () {
+    cy.get('.success')
+      .should('not.be.visible')
+      .invoke('show')
+      .should('be.visible')
+      .and('contain', 'Mensagem enviada com sucesso.')
+      .invoke('hide')
+      .should('not.be.visible')
+    cy.get('.error')
+      .should('not.be.visible')
+      .invoke('show')
+      .should('be.visible')
+      .and('contain', 'Valide os campos obrigatórios!')
+      .invoke('hide')
+      .should('not.be.visible')
+  })
 
+  it('preenche a area de texto usando o comando invoke', function () {
+    const longText = Cypress._.repeat('0123456789', 20)
+    cy.get('#open-text-area')
+      .invoke('val', longText)
+      .should('have.value', longText)
+  })
+
+  it('faz uma requisição HTTP', () => {
+    cy.request({
+      method: 'GET',
+      url: 'https://cac-tat.s3.eu-central-1.amazonaws.com/index.html'
+    }).then((response) => {
+      expect(response.status).to.equal(200);
+      expect(response.statusText).to.equal('OK')
+      expect(response.body).to.include('CAC TAT')
+    })
+  })
+
+  it.only('gato misterioso', () => {
+    cy.get('#cat').invoke('show').should('be.visible')
+  })
 
 
 })
